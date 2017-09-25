@@ -3,25 +3,85 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link href="twittler.css" rel="stylesheet"> 
+    <title>Twittler</title>
   </head>
   <body>
+  
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
+        $('<div>Welcome To Twittler</div>').addClass('welcome').appendTo($body);
+
+        getTweets();
+
+        $('<div class="button1"><button>Get Updated Twittles Here</button></div><br>').appendTo($body);
+
+        $('<div class="button2"><button>Show Tweets From ALL Users</div><br>').appendTo($body);
+
+
+
+        
+
+        //1. It should show users new tweets when they press the refresh button.
+
+         $('.button1').click(function() {  
+          var index = streams.home.length-1;
+          while (index >= 10) {
+          var tweet = streams.home[index];
+          var $tweet = $('<div class="tweet"></div>');         
+          $tweet.html('@' + '<a class="user">' + tweet.user + '</a>' + ': ' + tweet.message + ' posted at ' + tweet.created_at);
+          $tweet.appendTo($body);
+          index -= 1;
+          }
+        });
+
+
+
+        //2. Displays the timestamp of when the tweets we generate are created by accessing the tweet.created_at property of the tweet object
+
+      
 
         var index = streams.home.length - 1;
-        while(index >= 0){
+        
+        //Added getTweets function that gets initial tweets
+
+        function getTweets() {
+          while(index >= 0){
+          //var date = new Date();
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          var $tweet = $('<div class="tweet"></div>');
+          $tweet.html('@' + '<a class="user">' + tweet.user + '</a>' + ': ' + tweet.message + ' posted at ' + tweet.created_at);
           $tweet.appendTo($body);
           index -= 1;
         }
+        
+      }
 
+      getTweets();
+
+
+        //4.  It should allow the user to click on a username to see a users timeline
+
+        $('a').click(function() {
+          var userName = $(this).text();
+          $('a').each(function() {
+            if ($(this).text() !== userName) {
+              $(this).parent().hide();
+            }
+          $('.button2').click(function() {
+            $('a').parent().show();
+          })
+            
+        });
       });
+});
 
+
+     
     </script>
   </body>
+    <
 </html>
